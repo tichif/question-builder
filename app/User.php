@@ -36,4 +36,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Create a function witch allow relationship between questions table and users table
+    public function questions(){
+        return $this->hasMany(Question::class);
+    }
 }
