@@ -49,12 +49,18 @@ class QuestionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Question $question)
     {
-        //
+        $question->increment('views') ;
+        /*
+        *oubyen m ka ekri
+        *$question->views = $question->views + 1;
+        *$question->save();
+        */
+        return view('pages.questions.show', compact('question'));
     }
 
     /**

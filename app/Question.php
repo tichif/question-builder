@@ -14,7 +14,7 @@ class Question extends Model
         return $this->belongsTo(User::class); // or 'App\User'
     }
 
-    // Creating a mutator 
+    // Creating a mutator for the title and the slug
     public function setTitleAttribute($value){
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = str_slug($value);
@@ -22,14 +22,15 @@ class Question extends Model
 
     // creating an accessor for creating a route from a id
     public function getUrlAttribute(){
-        return route("questions.show", $this->id);
+        return route("questions.show", $this->slug);
     }
 
-    // creating an accessor 
+    // creating an accessor for getting the date in a specific format
     public function getCreatedDateAttribute(){
         return $this->created_at->diffForHumans();
     }
 
+    // creating an accessor for getting the status
     public function getStatusAttribute(){
         if($this->answers > 0){
             if($this->best_answer_id){
@@ -39,5 +40,10 @@ class Question extends Model
         }else{
             return "unanswered";
         }
+    }
+
+    // creating an accessor for getting the body in a specific format
+    public function getBodyHtmlAttribute(){
+        return \Parsedown::instance()->text($this->body);
     }
 }
