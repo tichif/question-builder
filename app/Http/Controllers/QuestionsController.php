@@ -36,7 +36,7 @@ class QuestionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\AskQuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AskQuestionRequest $request)
@@ -60,24 +60,29 @@ class QuestionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Question $question)
     {
-        //
+        // si se se te id a m te gen kom parametre 
+        // m tap use $question = Question::find(id);
+
+        return view('pages.questions.edit', compact('question'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\AskQuestionRequest  $request
+     * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AskQuestionRequest $request, Question $question)
     {
-        //
+        $question->update($request->only('title','body'));
+        return redirect()->action('QuestionsController@index')->with('success','Your question has been updated');
+
     }
 
     /**
