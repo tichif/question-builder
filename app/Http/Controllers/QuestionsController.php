@@ -71,13 +71,17 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
+        if(\Gate::denies('update-question', $question)){
+            abort(403,"Access Denied");
+        }
+        
         // si se se te id a m te gen kom parametre 
         // m tap use $question = Question::find(id);
 
-        return view('pages.questions.edit', compact('question'));
+        return view('pages.questions.edit', compact('question'));        
     }
 
-    /**
+    /** 
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\AskQuestionRequest  $request
@@ -99,6 +103,9 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
+        if(\Gate::denies('delete-question', $question)){
+            abort(403,"Access Denied");
+        }
         $question->delete();
         return redirect()->action('QuestionsController@index')->with('success','Your question has been deleted');
     }
