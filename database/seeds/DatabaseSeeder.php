@@ -16,7 +16,12 @@ class DatabaseSeeder extends Seeder
             $user->questions()
                  ->saveMany(
                      factory(App\Question::class, rand(1, 5))->make()
-                 ); // for more questions
+                 )->each(function($question){
+                    $question->answers()
+                             ->saveMany(
+                                 factory(App\Answer::class, rand(1,5))->make()
+                             );
+                 }); // for more questions
 
         });
         
