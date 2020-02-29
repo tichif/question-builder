@@ -28,4 +28,9 @@ class Answer extends Model
             $answer->question->increment('answers_count');
         });
     }
+
+    // creating an accessor for getting the date in a specific format
+    public function getCreatedDateAttribute(){
+        return $this->created_at->diffForHumans();
+    }
 }

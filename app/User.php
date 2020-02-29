@@ -41,7 +41,7 @@ class User extends Authenticatable
     public function questions(){
         return $this->hasMany(Question::class);
     }
-
+ 
     // creating an accessor for creating a route from a id
     public function getUrlAttribute(){
         // return route("questions.show", $this->id);
@@ -51,5 +51,12 @@ class User extends Authenticatable
     // Create a function witch allow relationship between users table and answers table
     public function answers(){
         return $this->hasMany(Answer::class);
+    }
+
+    // Create an accessor for avatar
+    public function getAvatarAttribute(){
+        $email = $this->email;
+        $size = 32;
+        return  "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?s=" . $size;
     }
 }
