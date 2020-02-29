@@ -8,6 +8,11 @@ use App\Question;
 
 class QuestionsController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -71,6 +76,7 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
+        $this->authorize("update", $question);
         // si se se te id a m te gen kom parametre 
         // m tap use $question = Question::find(id);
 
@@ -86,6 +92,7 @@ class QuestionsController extends Controller
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
+        $this->authorize("update", $question);
         $question->update($request->only('title','body'));
         return redirect()->action('QuestionsController@index')->with('success','Your question has been updated');
 
@@ -99,6 +106,7 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
+        $this->authorize("delete", $question);
         $question->delete();
         return redirect()->action('QuestionsController@index')->with('success','Your question has been deleted');
     }
