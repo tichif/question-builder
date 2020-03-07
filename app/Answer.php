@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    protected $fillable = ['body', 'user_id'];
+
     // Create a function witch allow relationship between answers table and users table
     public function user(){
         return $this->belongsTo(User::class);
@@ -33,4 +35,5 @@ class Answer extends Model
     public function getCreatedDateAttribute(){
         return $this->created_at->diffForHumans();
     }
+    
 }
