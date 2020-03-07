@@ -33,9 +33,8 @@ class Answer extends Model
 
         // le yon repons efase, nonb repons diminye
         static::deleted(function($answer){
-            $question = $answer->question;
 
-            $question->decrement('answers_count');
+            $answer->question->decrement('answers_count');
         });
     }
 
