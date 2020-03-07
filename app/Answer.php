@@ -33,13 +33,24 @@ class Answer extends Model
 
         // le yon repons efase, nonb repons diminye
         static::deleted(function($answer){
-            $answer->question->decrement('answers_count');
+            $question = $answer->question;
+
+            $question->decrement('answers_count');
+            if($question->best_answer_id == $answer->id){
+                $question->best_answer_id = null;
+                $question->save();
+            }
         });
     }
 
     // creating an accessor for getting the date in a specific format
     public function getCreatedDateAttribute(){
         return $this->created_at->diffForHumans();
+    }
+
+    // creating an accessor for getting the status for the answer
+    public function getStatusAttribute(){
+        return $this->id == $this->question->best_answer_id ? "vote-accepted" : "";
     }
     
 }
