@@ -26,8 +26,14 @@ class Answer extends Model
     public static function boot(){
         parent::boot();
 
+        // le yon repons kreye,nonb repons la ogmante
         static::created(function($answer){
             $answer->question->increment('answers_count');
+        });
+
+        // le yon repons efase, nonb repons diminye
+        static::deleted(function($answer){
+            $answer->question->decrement('answers_count');
         });
     }
 
