@@ -36,10 +36,6 @@ class Answer extends Model
             $question = $answer->question;
 
             $question->decrement('answers_count');
-            if($question->best_answer_id == $answer->id){
-                $question->best_answer_id = null;
-                $question->save();
-            }
         });
     }
 
