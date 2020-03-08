@@ -51,4 +51,10 @@ class Question extends Model
     public function answers(){
         return $this->hasMany(Answer::class);
     }
+
+    // Accept the answer as best answer for the question
+    public function acceptBestAnswer(Answer $answer){
+        $this->best_answer_id = $answer->id;
+        $this->save();
+    } 
 }
