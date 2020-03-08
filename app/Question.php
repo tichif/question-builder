@@ -57,4 +57,26 @@ class Question extends Model
         $this->best_answer_id = $answer->id;
         $this->save();
     } 
+
+    // Create a function witch allow relationship between questions table and users table using favorites table
+    public function favorites(){
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps(); // 'question_id', 'user_id');
+    }
+
+    
+    // This function allows you know is this question is favorited by an specific user
+    public function isFavorited()
+    {
+        return $this->favorites()->where('user_id', auth()->id())->count() > 0;
+    }
+
+    // creating an accessor for getting the favorited question
+    public function getIsFavoritedAttribute(){
+        return $this->isFavorited();
+    }
+
+    // creating an accessor for getting the count for a favorited question
+    public function getFavoritesCountAttribute(){
+        return $this->favorites->count();
+    }
 }
