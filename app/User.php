@@ -78,43 +78,30 @@ class User extends Authenticatable
     // This function allows the user to vote for a question once 
     public function voteQuestion(Question $question, $vote){
         $voteQuestions = $this->voteQuestions();
-        // check if the user has already voted for this question 
-        // if exists, update existing vote
-        // otherwise insert vote
-        if($voteQuestions->where('votable_id', $question->id)->exists()){
-            $voteQuestions->updateExistingPivot($question, ['vote' => $vote]);
-        }else{
-            $voteQuestions->attach($question, ['vote' => $vote]);
-        }
-
-        // recount the total number of votes (sum)
-        $question->load('votes');
-        $downVotes = (int) $question->downVotes()->sum('vote'); // you must cast the answer because it will return a string
-        $upVotes = (int) $question->upVotes()->sum('vote'); // you must cast the answer because it will return a string
-
-        $question->votes_count = $upVotes + $downVotes;
-        $question->save();
-
+        
+        $this->_vote($voteQuestions, $question, $vote);
     }
 
     // This function allows the user to vote for a answer once 
     public function voteAnswer(Answer $answer, $vote){
         $voteAnswers = $this->voteAnswers();
-        // check if the user has already voted for this answers 
-        // if exists, update existing vote
-        // otherwise insert vote
-        if($voteAnswers->where('votable_id', $answer->id)->exists()){
-            $voteAnswers->updateExistingPivot($answer, ['vote' => $vote]);
+        
+        $this->_vote($voteAnswers, $answer, $vote);
+    }
+
+    private function _vote($relationship, $model, $vote){
+        if($relationship->where('votable_id', $model->id)->exists()){
+            $relationship->updateExistingPivot($model, ['vote' => $vote]);
         }else{
-            $voteAnswers->attach($answer, ['vote' => $vote]);
+            $relationship->attach($model, ['vote' => $vote]);
         }
 
         // recount the total number of votes (sum)
-        $answer->load('votes');
-        $downVotes = (int) $answer->downVotes()->sum('vote'); // you must cast the response because it will return a string
-        $upVotes = (int) $answer->upVotes()->sum('vote'); // you must cast the response because it will return a string
+        $model->load('votes');
+        $downVotes = (int) $model->downVotes()->sum('vote'); // you must cast the response because it will return a string
+        $upVotes = (int) $model->upVotes()->sum('vote'); // you must cast the response because it will return a string
 
-        $answer->votes_counts = $upVotes + $downVotes;
-        $answer->save();
+        $model->votes_counts = $upVotes + $downVotes;
+        $model->save();
     }
 }
