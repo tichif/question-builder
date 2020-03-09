@@ -64,4 +64,36 @@ class User extends Authenticatable
     public function favorites(){
         return $this->belongsToMany(Question::class, 'favorites')->withTimestamps(); // 'user_id', 'question_id');
     }
+
+    // Relationship Function between Questions table and Users table using a Pivot Table 'votables'
+    public function voteQuestions(){
+        return $this->morphedByMany(Question::class, 'votable'); // Eloquent will assume that votable is for the votables table;
+    }
+
+    // Relationship Function between Answers table and Users table using a Pivot Table 'votables'
+    public function voteAnswers(){
+        return $this->morphedByMany(Answer::class, 'votable'); // Eloquent will assume that votable is for the votables table;
+    }
+
+    // This function allows the user to vote for a question once 
+    public function voteQuestion(Question $question, $vote){
+        $voteQuestions = $this->voteQuestions();
+        // check if the user has already voted for this question 
+        // if exists, update existing vote
+        // otherwise insert vote
+        if($voteQuestions->where('votable_id', $question->id)->exists()){
+            $voteQuestions->updateExistingPivot($question, ['vote' => $vote]);
+        }else{
+            $voteQuestions->attach($question, ['vote' => $vote]);
+        }
+
+        // recount the total number of votes (sum)
+        $question->load('votes');
+        $downVotes = (int) $question->downVotes()->sum('vote'); // you must cast the answer because it will return a string
+        $upVotes = (int) $question->upVotes()->sum('vote'); // you must cast the answer because it will return a string
+
+        $question->votes_count = $upVotes + $downVotes;
+        $question->save();
+
+    }
 }
