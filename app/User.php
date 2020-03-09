@@ -96,4 +96,25 @@ class User extends Authenticatable
         $question->save();
 
     }
+
+    // This function allows the user to vote for a answer once 
+    public function voteAnswer(Answer $answer, $vote){
+        $voteAnswers = $this->voteAnswers();
+        // check if the user has already voted for this answers 
+        // if exists, update existing vote
+        // otherwise insert vote
+        if($voteAnswers->where('votable_id', $answer->id)->exists()){
+            $voteAnswers->updateExistingPivot($answer, ['vote' => $vote]);
+        }else{
+            $voteAnswers->attach($answer, ['vote' => $vote]);
+        }
+
+        // recount the total number of votes (sum)
+        $answer->load('votes');
+        $downVotes = (int) $answer->downVotes()->sum('vote'); // you must cast the response because it will return a string
+        $upVotes = (int) $answer->upVotes()->sum('vote'); // you must cast the response because it will return a string
+
+        $answer->votes_counts = $upVotes + $downVotes;
+        $answer->save();
+    }
 }
