@@ -50,7 +50,7 @@ class Question extends Model
 
     // Create a function witch allow relationship between questions table and answers table
     public function answers(){
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class)->orderBy('votes_counts','DESC');
     }
 
     // Accept the answer as best answer for the question
