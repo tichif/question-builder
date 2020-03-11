@@ -45,7 +45,7 @@ class Question extends Model
 
     // creating an accessor for getting the body in a specific format
     public function getBodyHtmlAttribute(){
-        return \Parsedown::instance()->text($this->body);
+       return clean($this->bodyHtml());
     }
 
     // Create a function witch allow relationship between questions table and answers table
@@ -79,6 +79,21 @@ class Question extends Model
     // creating an accessor for getting the count for a favorited question
     public function getFavoritesCountAttribute(){
         return $this->favorites->count();
+    }
+
+    // creating an accessor for getting the body in a specific format
+    public function getExcerptAttribute(){
+        return $this->excerpt(250);
+    }
+
+    public function excerpt($length){
+        return str_limit(strip_tags($this->bodyHtml()), $length);
+    }
+
+
+
+    private function bodyHtml(){
+        return \Parsedown::instance()->text($this->body);
     }
 
 }

@@ -22,7 +22,7 @@ class Answer extends Model
 
     // creating an accessor for getting the body in a specific format
     public function getBodyHtmlAttribute(){
-        return \Parsedown::instance()->text($this->body);
+        return clean(\Parsedown::instance()->text($this->body));
     }
 
     public static function boot(){
