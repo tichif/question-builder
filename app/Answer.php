@@ -10,7 +10,7 @@ class Answer extends Model
     
     protected $fillable = ['body', 'user_id'];
 
-    protected $appends = ['created_date'];
+    protected $appends = ['created_date','body_html'];
 
     // Create a function witch allow relationship between answers table and users table
     public function user(){
