@@ -10,6 +10,8 @@ class Answer extends Model
     
     protected $fillable = ['body', 'user_id'];
 
+    protected $appends = ['created_date'];
+
     // Create a function witch allow relationship between answers table and users table
     public function user(){
         return $this->belongsTo(User::class);
