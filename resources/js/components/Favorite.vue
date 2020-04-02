@@ -32,9 +32,6 @@ export default {
     },
     endpoint() {
       return `${this.url}/questions/${this.id}/favorites`;
-    },
-    signedIn() {
-      return window.Auth.signedIn;
     }
   },
   methods: {
