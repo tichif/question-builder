@@ -35,10 +35,8 @@
             </div>
         </div>
     </div>
-    @include('pages.answers._index',[
-      'answersCount' => $question->answers_count,
-      'answers' => $question->answers
-       ])
+    <answers :answers="{{ $question->answers }}" :count="{{ $question->answers_count }}" ></answers>
+    
     @include('pages.answers._create')
 </div>
 @endsection
