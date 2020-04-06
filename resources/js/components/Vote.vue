@@ -25,7 +25,7 @@ export default {
   components: { Favorite, Accept },
   data() {
     return {
-      count: this.model.votes_counts,
+      count: this.model.votes_counts || 0,
       url: "http://localhost/questionbuilder/public",
       id: this.model.id
     };
