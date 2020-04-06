@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import eventBus from "../event-bus";
 export default {
   props: ["answer"],
   data() {
@@ -28,6 +29,11 @@ export default {
       url: "http://localhost/questionbuilder/public",
       id: this.answer.id
     };
+  },
+  created() {
+    eventBus.$on("accepted", id => {
+      this.status = id == this.id;
+    });
   },
   computed: {
     canAccept() {
@@ -53,6 +59,7 @@ export default {
             position: "bottomLeft"
           });
           this.status = true;
+          eventBus.$emit("accepted", this.id);
         })
         .catch(err => console.log(err));
     }
