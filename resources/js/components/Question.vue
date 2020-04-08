@@ -20,6 +20,7 @@
         <div class="card-body" v-else>
           <div class="card-title">
             <div class="d-flex align-items-center">
+              <h1>{{ title }}</h1>
               <div class="ml-auto">
                 <a :href="url" class="btn btn-outline-secondary">Go Back</a>
               </div>
@@ -63,16 +64,17 @@
 <script>
 import Vote from "./Vote";
 import UserInfo from "./UserInfo";
+import mixins from "../mixins/mixins";
 export default {
   props: ["question"],
   components: { Vote, UserInfo },
+  mixins: [mixins],
   data() {
     return {
       url: "http://localhost/questionbuilder/public/questions",
       title: this.question.title,
       body: this.question.body,
       bodyHtml: this.question.body_html,
-      editing: false,
       id: this.question.id,
       beforeEditCache: {}
     };
@@ -86,73 +88,31 @@ export default {
     }
   },
   methods: {
-    edit() {
+    setEditCache() {
       this.beforeEditCache = {
         body: this.body,
         title: this.title
       };
-      this.editing = true;
     },
-    cancel() {
+    restoreFromCache() {
       this.body = this.beforeEditCache.body;
       this.title = this.beforeEditCache.title;
-      this.editing = false;
     },
-    update() {
-      axios
-        .put(this.endpoint, {
-          title: this.title,
-          body: this.body
-        })
-        .then(({ data }) => {
-          this.$toast.success(data.message, "Success", {
-            timeout: 5000,
-            position: "bottomLeft"
-          });
-          this.bodyHtml = data.body_html;
-          this.editing = false;
-        })
-        .catch(({ response }) =>
-          this.$toast.error(response.data.message, "Error", {
-            position: "bottomLeft",
-            timeout: 5000
-          })
-        );
+    payload() {
+      return {
+        title: this.title,
+        body: this.body
+      };
     },
-    destroy() {
-      this.$toast.question("Are you sure about that?", "Confirm", {
-        timeout: 20000,
-        close: false,
-        overlay: true,
-        displayMode: "once",
-        id: "question",
-        zindex: 999,
-        title: "Hey",
-        position: "center",
-        buttons: [
-          [
-            "<button><b>YES</b></button>",
-            (instance, toast) => {
-              axios.delete(this.endpoint).then(({ data }) => {
-                this.$toast.success(data.message, "Success", {
-                  timeout: 2000,
-                  position: "bottomLeft"
-                });
-                setTimeout(() => {
-                  window.location.href = this.url;
-                }, 3000);
-              });
-              instance.hide({ transitionOut: "fadeOut" }, toast, "button");
-            },
-            true
-          ],
-          [
-            "<button>NO</button>",
-            function(instance, toast) {
-              instance.hide({ transitionOut: "fadeOut" }, toast, "button");
-            }
-          ]
-        ]
+    delete() {
+      axios.delete(this.endpoint).then(({ data }) => {
+        this.$toast.success(data.message, "Success", {
+          timeout: 2000,
+          position: "bottomLeft"
+        });
+        setTimeout(() => {
+          window.location.href = this.url;
+        }, 3000);
       });
     }
   }
