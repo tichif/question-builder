@@ -3829,7 +3829,7 @@ __webpack_require__.r(__webpack_exports__);
       return ["mt-2", this.status ? "vote-accepted" : ""];
     },
     endpoint: function endpoint() {
-      return "answers/".concat(this.id, "/accept");
+      return "/answers/".concat(this.id, "/accept");
     }
   },
   methods: {
@@ -3865,22 +3865,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Vote__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Vote */ "./resources/js/components/Vote.vue");
 /* harmony import */ var _UserInfo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserInfo */ "./resources/js/components/UserInfo.vue");
 /* harmony import */ var _mixins_mixins__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/mixins */ "./resources/js/mixins/mixins.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3971,7 +3955,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.body.length < 10;
     },
     endpoint: function endpoint() {
-      return "questions/".concat(this.questionId, "/answers/").concat(this.id);
+      return "/questions/".concat(this.questionId, "/answers/").concat(this.id);
     }
   }
 });
@@ -4041,7 +4025,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
   },
   created: function created() {
-    this.fetch("questions/".concat(this.questionId, "/answers"));
+    this.fetch("/questions/".concat(this.questionId, "/answers"));
   },
   components: {
     Answer: _Answer__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -4129,7 +4113,7 @@ __webpack_require__.r(__webpack_exports__);
     create: function create() {
       var _this = this;
 
-      axios.post("questions/".concat(this.questionId, "/answers"), {
+      axios.post("/questions/".concat(this.questionId, "/answers"), {
         body: this.body
       }).then(function (_ref) {
         var data = _ref.data;
@@ -4196,7 +4180,7 @@ __webpack_require__.r(__webpack_exports__);
       return ["favorite", "mt-2", !this.signedIn ? "off" : this.isFavorited ? "favorited" : ""];
     },
     endpoint: function endpoint() {
-      return "questions/".concat(this.id, "/favorites");
+      return "/questions/".concat(this.id, "/favorites");
     }
   },
   methods: {
@@ -4335,7 +4319,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.body.length < 10 || this.title.length < 10;
     },
     endpoint: function endpoint() {
-      return "questions/".concat(this.id);
+      return "/questions/".concat(this.id);
     }
   },
   methods: {
@@ -40669,7 +40653,7 @@ var render = function() {
                     staticClass: "btn btn-primary",
                     attrs: { type: "submit", disabled: _vm.isInvalid }
                   },
-                  [_vm._v("\n                Update\n            ")]
+                  [_vm._v("Update")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -40678,7 +40662,7 @@ var render = function() {
                     staticClass: "btn btn-outline-secondary",
                     on: { click: _vm.cancel }
                   },
-                  [_vm._v("\n                Cancel\n            ")]
+                  [_vm._v("Cancel")]
                 )
               ]
             )
@@ -40711,11 +40695,7 @@ var render = function() {
                             staticClass: "btn btn-sm btn-outline-danger",
                             on: { click: _vm.destroy }
                           },
-                          [
-                            _vm._v(
-                              "\n                            Delete\n                        "
-                            )
-                          ]
+                          [_vm._v("Delete")]
                         )
                       : _vm._e()
                   ])

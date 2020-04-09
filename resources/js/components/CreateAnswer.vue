@@ -37,7 +37,7 @@ export default {
   methods: {
     create() {
       axios
-        .post(`questions/${this.questionId}/answers`, {
+        .post(`/questions/${this.questionId}/answers`, {
           body: this.body
         })
         .then(({ data }) => {

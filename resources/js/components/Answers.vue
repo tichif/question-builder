@@ -43,7 +43,7 @@ export default {
     };
   },
   created() {
-    this.fetch(`questions/${this.questionId}/answers`);
+    this.fetch(`/questions/${this.questionId}/answers`);
   },
   components: { Answer, CreateAnswer },
   computed: {
