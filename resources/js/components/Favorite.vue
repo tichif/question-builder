@@ -31,7 +31,7 @@ export default {
       ];
     },
     endpoint() {
-      return `${this.url}/questions/${this.id}/favorites`;
+      return `questions/${this.id}/favorites`;
     }
   },
   methods: {

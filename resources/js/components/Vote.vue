@@ -73,7 +73,7 @@ export default {
       return [!this.signedIn ? "off" : ""];
     },
     endpoint() {
-      return `${this.url}/${this.name}s/${this.id}/vote`;
+      return `${this.name}s/${this.id}/vote`;
     }
   }
 };

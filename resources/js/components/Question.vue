@@ -84,7 +84,7 @@ export default {
       return this.body.length < 10 || this.title.length < 10;
     },
     endpoint() {
-      return `${this.url}/${this.id}`;
+      return `questions/${this.id}`;
     }
   },
   methods: {
