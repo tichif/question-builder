@@ -4306,7 +4306,7 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_mixins__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
-      url: "http://localhost/questionbuilder/public/questions",
+      url: "/questions",
       title: this.question.title,
       body: this.question.body,
       bodyHtml: this.question.body_html,
@@ -4487,7 +4487,7 @@ __webpack_require__.r(__webpack_exports__);
       return [!this.signedIn ? "off" : ""];
     },
     endpoint: function endpoint() {
-      return "".concat(this.name, "s/").concat(this.id, "/vote");
+      return "/".concat(this.name, "s/").concat(this.id, "/vote");
     }
   }
 });

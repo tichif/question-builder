@@ -71,7 +71,7 @@ export default {
   mixins: [mixins],
   data() {
     return {
-      url: "http://localhost/questionbuilder/public/questions",
+      url: "/questions",
       title: this.question.title,
       body: this.question.body,
       bodyHtml: this.question.body_html,
